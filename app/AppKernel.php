@@ -30,6 +30,9 @@ class AppKernel extends Kernel
             }
         }
 
+        $bundles[] = new Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle();
+        $bundles[] = new Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle();
+
         return $bundles;
     }
 
