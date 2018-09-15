@@ -7,6 +7,7 @@ Installation
 ============
 
 * clone the repository
+* create the database and set it up in `app/config/parameters.yml`
 * run `php bin/console doctrine:migrations:migrate`
 
 If you need the preset with random data:
