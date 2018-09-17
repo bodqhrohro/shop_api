@@ -2,6 +2,8 @@
 
 namespace AppBundle\Entity;
 
+use JsonSerializable;
+
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -10,7 +12,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Table
  * @ORM\Entity
  */
-class Commodity {
+class Commodity implements JsonSerializable {
    /**
     * @ORM\Id
     * @ORM\GeneratedValue
@@ -60,6 +62,15 @@ class Commodity {
     }
 
     public function setCreatedAt(\DateTime $created_at) {
-         $this->created_at = $created_at;
+        $this->created_at = $created_at;
+    }
+
+    public function jsonSerialize() {
+        return [
+            'id' => $this->id,
+            'name' => $this->name,
+            'price' => $this->price,
+            'created_at' => $this->created_at,
+        ];
     }
 }

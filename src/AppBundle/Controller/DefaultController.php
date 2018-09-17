@@ -9,13 +9,16 @@ use Symfony\Component\Routing\Annotation\Route;
 class DefaultController extends Controller
 {
     /**
-     * @Route("/", name="homepage")
+     * @Route("/", name="commodities_list")
      */
     public function indexAction(Request $request)
     {
-        // replace this example code with whatever you need
-        return $this->render('default/index.html.twig', [
-            'base_dir' => realpath($this->getParameter('kernel.project_dir')).DIRECTORY_SEPARATOR,
-        ]);
+        $doctrine = $this->getDoctrine();
+
+        $repo = $doctrine->getRepository('AppBundle:Commodity');
+
+        $commodities = $repo->findAll();
+
+        return $this->json($commodities);
     }
 }
