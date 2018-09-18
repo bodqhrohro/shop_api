@@ -69,8 +69,8 @@ class Commodity implements JsonSerializable {
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'price' => $this->price,
-            'created_at' => $this->created_at,
+            'price' => (float)$this->price,
+            'created_at' => $this->created_at->format(\DateTime::RFC3339_EXTENDED),
         ];
     }
 }
