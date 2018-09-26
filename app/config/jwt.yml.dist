@@ -1,0 +1,6 @@
+app:
+    jwt_issuer: 'bodqhrohro'
+    jwt_audience: 'asgart'
+    jwt_token_ttl: 604800
+    jwt_secret_key: '%kernel.project_dir%/app/config/jwt/private.pem'
+    jwt_public_key: '%kernel.project_dir%/app/config/jwt/public.pem'

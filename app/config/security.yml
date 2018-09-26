@@ -6,6 +6,8 @@ security:
     providers:
         in_memory:
             memory: ~
+        jwt_user_provider:
+            id: AppBundle\Security\JWTUserProvider
 
     firewalls:
         # disables authentication for assets and the profiler, adapt it according to your needs
@@ -15,6 +17,10 @@ security:
 
         main:
             anonymous: ~
+            stateless: true
+            simple_preauth:
+                authenticator: AppBundle\Security\JWTTokenAuthenticator
+            provider: jwt_user_provider
             # activate different ways to authenticate
 
             # https://symfony.com/doc/current/security.html#a-configuring-how-your-users-will-authenticate

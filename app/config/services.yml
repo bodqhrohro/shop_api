@@ -37,3 +37,6 @@ services:
     AppBundle\EventListener\ApiExceptionEventListener:
         tags:
             - { name: kernel.event_listener, event: kernel.exception }
+
+    AppBundle\Security\JWTTokenAuthenticator:
+        arguments: ['@service_container']

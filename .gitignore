@@ -1,5 +1,6 @@
 /.web-server-pid
 /app/config/parameters.yml
+/app/config/jwt.yml
 /build/
 /phpunit.xml
 /var/*
@@ -17,3 +18,6 @@
 /web/bundles/
 *.sw?
 .fuse_hidden*
+!/app/config/jwt
+/app/config/jwt/*
+!/app/config/jwt/.gitkeep

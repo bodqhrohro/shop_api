@@ -27,6 +27,7 @@
         "doctrine/orm": "^2.5",
         "fakerino/fakerino": "^0.8.3",
         "incenteev/composer-parameter-handler": "^2.0",
+        "lcobucci/jwt": "^3.2",
         "sensio/distribution-bundle": "^5.0.19",
         "sensio/framework-extra-bundle": "^5.0.0",
         "symfony/monolog-bundle": "^3.1.0",
