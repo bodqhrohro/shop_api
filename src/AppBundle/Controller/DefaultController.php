@@ -9,21 +9,10 @@ use Symfony\Component\Routing\Annotation\Route;
 
 use Doctrine\Common\Collections\Criteria;
 
-class DefaultController extends Controller
+use AppBundle\Validation\DefaultValidator;
+
+class DefaultController extends ApiController
 {
-    protected const ORDER_ORIENTATION = ['ASC', 'DESC'];
-    protected const DATETIME_FORMAT = '!Y-m-d';
-
-    protected function getRequestData(Request $request) : ?Object
-    {
-        $input = $request->getContent();
-        if (!empty($input)) {
-            return json_decode($input);
-        } else {
-            return null;
-        }
-    }
-
     /**
      * @Route("/", name="commodities_list")
      */
@@ -35,8 +24,10 @@ class DefaultController extends Controller
         $criteria = new Criteria();
         $orderBy = [];
 
-        // filtering logic
         if ($input = $this->getRequestData($request)) {
+            $input = DefaultValidator::validateInput($input);
+
+            // filtering logic
             if (isset($input->count)) {
                 $criteria->setMaxResults($input->count);
             }
@@ -52,33 +43,23 @@ class DefaultController extends Controller
 
             if (isset($input->created_at)) {
                 if (isset($input->created_at->min)) {
-                    $criteria->andWhere($criteria->expr()->gte(
-                        'created_at',
-                        \DateTime::createFromFormat($this::DATETIME_FORMAT, $input->created_at->min)
-                    ));
+                    $criteria->andWhere($criteria->expr()->gte('created_at', $input->created_at->min));
                 }
                 if (isset($input->created_at->max)) {
-                    $criteria->andWhere($criteria->expr()->lte(
-                        'created_at',
-                        \DateTime::createFromFormat($this::DATETIME_FORMAT, $input->created_at->max)
-                    ));
+                    $criteria->andWhere($criteria->expr()->lte('created_at', $input->created_at->max));
                 }
                 if (isset($input->created_at->sort)) {
-                    if (in_array($input->created_at->sort, $this::ORDER_ORIENTATION)) {
-                        $orderBy['created_at'] = $input->created_at->sort === 'ASC'
-                            ? $criteria::ASC
-                            : $criteria::DESC;
-                    }
+                    $orderBy['created_at'] = $input->created_at->sort === 'ASC'
+                        ? $criteria::ASC
+                        : $criteria::DESC;
                 }
             }
 
             if (isset($input->name)) {
                 if (isset($input->name->sort)) {
-                    if (in_array($input->name->sort, $this::ORDER_ORIENTATION)) {
-                        $orderBy['name'] = $input->name->sort === 'ASC'
-                            ? $criteria::ASC
-                            : $criteria::DESC;
-                    }
+                    $orderBy['name'] = $input->name->sort === 'ASC'
+                        ? $criteria::ASC
+                        : $criteria::DESC;
                 }
             }
         }
